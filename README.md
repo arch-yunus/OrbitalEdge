@@ -1,4 +1,4 @@
-![OrbitalEdge Masterpiece Release](docs/assets/banner.png)
+![OrbitalEdge Premium Release](docs/assets/banner_v2.png)
 
 # 🛸 OrbitalEdge v1.3.0-PREMIUM
 
