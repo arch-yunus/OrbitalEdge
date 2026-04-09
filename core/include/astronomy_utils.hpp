@@ -47,6 +47,17 @@ inline double calculate_gmst(double jd) {
 }
 
 /**
+ * @brief Atmosferik Kırılma (Refraction) düzeltmesi (yaklaşık).
+ * @param h0 Gözlenen yükseklik (derece).
+ * @return Düzeltilmiş yükseklik (derece).
+ */
+inline double apply_refraction(double h0) {
+    if (h0 < -0.575) return h0; // Ufuk altı
+    double R = 1.02 / std::tan((h0 + 10.3 / (h0 + 5.11)) * DEG_TO_RAD);
+    return h0 + (R / 60.0);
+}
+
+/**
  * @brief Ekliptik koordinatları Ekvatoral koordinatlara dönüştürür.
  */
 inline void ecliptic_to_equatorial(double lon, double lat, double epsilon, double& ra, double& dec) {
@@ -75,7 +86,10 @@ inline void equatorial_to_horizontal(double ra, double dec, double lat_observer,
     double sin_alt = std::sin(D) * std::sin(PHI) + std::cos(D) * std::cos(PHI) * std::cos(H);
     alt = std::asin(sin_alt) * RAD_TO_DEG;
 
-    double cos_az = (std::sin(D) - std::sin(PHI) * sin_alt) / (std::cos(PHI) * std::cos(std::asin(sin_alt)));
+    // Kırılma düzeltmesi uygula
+    alt = apply_refraction(alt);
+
+    double cos_az = (std::sin(D) - std::sin(PHI) * std::sin(alt * DEG_TO_RAD)) / (std::cos(PHI) * std::cos(alt * DEG_TO_RAD));
     az = std::acos(cos_az) * RAD_TO_DEG;
 
     if (std::sin(H) > 0) {

@@ -87,6 +87,36 @@ int main() {
 
 ---
 
+## 🌙 Ay Motoru (ELP-2000/82)
+
+OrbitalEdge, Ay'ın karmaşık yörünge hareketlerini hesaplamak için **ELP-2000/82** teorisinin optimize edilmiş bir alt kümesini kullanır. Bu, gelgit analizi ve göksel navigasyon için yüksek doğruluk sağlar.
+
+---
+
+## 📡 IoT ve MQTT Bağlantısı
+
+Uç birimden toplanan astronomik veriler, `MQTTManager` aracılığıyla JSON formatında diğer IoT cihazlarına veya merkezi bir broker'a aktarılması sağlanır:
+
+```json
+{
+  "gezegen": "Gunes",
+  "boylam": 185.42,
+  "yukseklik": 42.15,
+  "azimut": 178.9,
+  "burc": "Terazi"
+}
+```
+
+---
+
+## 🗺️ Gelişmiş Astronomik Düzeltmeler
+
+Hesaplamalarda aşağıdaki fiziksel düzeltmeler standart olarak uygulanmaktadır:
+- **Atmosferik Kırılma (Refraction)**: Ufuk çizgisi yakınındaki yükseklik hatalarının giderilmesi.
+- **Nutasyon ve Presesyon**: Dünya'nın eksenel hareketlerine dayalı uzun dönemli düzeltmeler.
+
+---
+
 ## 🐍 Python Kullanımı (Pybind11)
 
 OrbitalEdge, Python üzerinden doğrudan erişilebilir durumdadır. Bu, AI modelleri ve hızlı veri analizi için idealdir:

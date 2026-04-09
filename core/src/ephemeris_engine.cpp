@@ -1,6 +1,7 @@
 #include "ephemeris_engine.hpp"
 #include "astronomy_utils.hpp"
 #include "vsop87_coefficients.hpp"
+#include "lunar_engine.hpp"
 #include <iostream>
 #include <cmath>
 
@@ -23,12 +24,12 @@ double calculate_heliocentric_longitude(int planet_index, double t) {
     auto series = VSOPData::get_planet_series(planet_index);
     double lon = 0;
     
-    // L0 serisi: Sabit ve lineer olmayan terimler
+    // L0 serisi
     for (const auto& term : series.L0) {
         lon += term.A * std::cos(term.B + term.C * t);
     }
     
-    // L1 serisi: t ile orantılı terimler
+    // L1 serisi
     for (const auto& term : series.L1) {
         lon += term.A * std::cos(term.B + term.C * t) * t;
     }
@@ -39,23 +40,26 @@ double calculate_heliocentric_longitude(int planet_index, double t) {
 PlanetPosition EphemerisEngine::get_planet_pos(Planets gezegen, double enlem, double boylam) {
     double jd = get_current_julian_date();
     double gmst = calculate_gmst(jd);
-    double t = (jd - 2451545.0) / 365250.0; // VSOP87 için milenyum cinsinden zaman
+    double t = (jd - 2451545.0) / 365250.0;
 
-    double planet_lon = 360.0;
+    double planet_lon = 0.0;
     double planet_lat = 0.0;
     double epsilon = 23.4392911;
 
-    // Dünya'nın (Güneş için) heliosentrik boylamı
-    double earth_lon = calculate_heliocentric_longitude(2, t);
-
-    if (gezegen == Planets::SUN) {
-        // Güneş boylamı = Dünya heliosentrik boylamı + 180 derece
-        planet_lon = earth_lon + 180.0;
+    if (gezegen == Planets::MOON) {
+        // Ay hesaplama motorunu kullan
+        auto moon_data = LunarEngine::calculate_position(jd);
+        planet_lon = moon_data.lon;
+        planet_lat = moon_data.lat;
     } else {
-        // Diğer gezegenler (basitleştirilmiş geocentric yaklaşım)
-        // Gerçekte Heliocentric vector farkı gerekir. Burada gösterim için basitleştirilmiştir.
-        double h_lon = calculate_heliocentric_longitude(static_cast<int>(gezegen), t);
-        planet_lon = h_lon; // Örnek olarak heliosentrik verilmektedir
+        // Dünya'nın heliosentrik boylamı (Güneş için)
+        double earth_lon = calculate_heliocentric_longitude(2, t);
+
+        if (gezegen == Planets::SUN) {
+            planet_lon = earth_lon + 180.0;
+        } else {
+            planet_lon = calculate_heliocentric_longitude(static_cast<int>(gezegen), t);
+        }
     }
 
     PlanetPosition pos;
@@ -66,10 +70,10 @@ PlanetPosition EphemerisEngine::get_planet_pos(Planets gezegen, double enlem, do
     equatorial_to_horizontal(ra, dec, enlem, boylam, gmst, alt, az);
 
     pos.zodiac_degree = std::fmod(planet_lon, 360.0);
+    if (pos.zodiac_degree < 0) pos.zodiac_degree += 360.0;
     pos.altitude = alt;
     pos.azimuth = az;
 
-    // Burç hesaplama
     static const std::string burclar[] = {
         "Koc", "Boga", "Ikizler", "Yengec", "Aslan", "Basak", 
         "Terazi", "Akrep", "Yay", "Oglak", "Kova", "Balik"
