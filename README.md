@@ -1,5 +1,7 @@
 # 🌌 OrbitalEdge (Edge-Ephemeris)
 
+![OrbitalEdge Banner](docs/assets/banner.png)
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![C++](https://img.shields.io/badge/C++-17%2B-00599C.svg)](https://isocpp.org/)
 [![Rust](https://img.shields.io/badge/Rust-Safe%20Bindings-dea584.svg)](https://www.rust-lang.org/)
