@@ -9,6 +9,21 @@ namespace orbital_edge {
 
 using namespace astronomy;
 
+/**
+ * @brief Chebyshev Polinomu Yakınsaması.
+ * Büyük veri setlerini az sayıda katsayı ile temsil ederek hafıza tasarrufu sağlar.
+ */
+double evaluate_chebyshev(const std::vector<double>& coeffs, double t) {
+    double d = 0.0, dd = 0.0;
+    double t2 = 2.0 * t;
+    for (size_t j = coeffs.size() - 1; j >= 1; --j) {
+        double tmp = d;
+        d = t2 * d - dd + coeffs[j];
+        dd = tmp;
+    }
+    return t * d - dd + coeffs[0];
+}
+
 EphemerisEngine::EphemerisEngine(const std::string& veri_yolu) : m_dataPath(veri_yolu) {
     // std::cout << "[OrbitalEdge] Motor baslatiliyor." << std::endl;
 }

@@ -3,7 +3,10 @@
 #include <vector>
 #include <string>
 #include <optional>
+#include <cmath>
+#include <memory>
 #include "ephemeris_engine.hpp"
+#include "planets.hpp"
 
 namespace orbital_edge {
 namespace analytics {
