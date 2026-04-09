@@ -13,8 +13,11 @@ endif()
 # Core Engine
 add_subdirectory(core)
 
-# Bindings (Optional / Placeholder)
-# add_subdirectory(bindings)
+# Tests
+enable_testing()
+add_executable(test_astronomy tests/test_astronomy.cpp)
+target_include_directories(test_astronomy PRIVATE core/include)
+add_test(NAME AstronomyTest COMMAND test_astronomy)
 
 # Installation
 install(EXPORT OrbitalEdgeTargets

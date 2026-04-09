@@ -1,20 +1,20 @@
-# Contributing to OrbitalEdge
+# OrbitalEdge'e Katkıda Bulunma
 
-Welcome to the OrbitalEdge developer community! We are building the future of offline, edge-based astronomical intelligence.
+OrbitalEdge geliştirici topluluğuna hoş geldiniz! Çevrimdışı, uç birim tabanlı astronomik zekanın geleceğini inşa ediyoruz.
 
-## Development Standards
-- **Core Engine (C++17)**: Performance is critical. Avoid unnecessary heap allocations in the hot path.
-- **Micro-footprint**: Ensure that memory usage remains predictable for embedded systems.
-- **Hardware Agnostic**: While we optimize for ARM64 (Jetson/RPi), the core logic should remain portable.
+## Geliştirme Standartları
+- **Çekirdek Motor (C++17)**: Performans kritiktir. Sıcak yollarda (hot path) gereksiz heap ayırmalarından (allocation) kaçının.
+- **Mikro-Ayak İzi**: Bellek kullanımının gömülü sistemler için öngörülebilir olduğundan emin olun.
+- **Donanım Uyumluluğu**: ARM64 (Jetson/RPi) için optimize etsek de, çekirdek mantığı taşınabilir kalmalıdır.
 
-## Workflow
-1. Fork the repo.
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`).
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`).
-4. Push to the branch (`git push origin feature/AmazingFeature`).
-5. Open a Pull Request.
+## İş Akışı
+1. Depoyu forklayın.
+2. Özellik dalınızı oluşturun (`git checkout -b ozellik/HarikaOzellik`).
+3. Değişikliklerinizi commit edin (`git commit -m 'HarikaOzellik Ekle'`).
+4. Dalınıza pushlayın (`git push origin ozellik/HarikaOzellik`).
+5. Bir Çekme İsteği (Pull Request) açın.
 
-## Code Style
-- Use `clang-format` (LLVM style) for C++.
-- Follow `flake8` for Python.
-- Use `cargo fmt` and `clippy` for Rust.
+## Kod Stili
+- C++ için `clang-format` (LLVM stili) kullanın.
+- Python için `flake8` kurallarına uyun.
+- Rust için `cargo fmt` ve `clippy` kullanın.

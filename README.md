@@ -2,7 +2,7 @@
 
 ![OrbitalEdge Banner](docs/assets/banner.png)
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Lisans: MIT](https://img.shields.io/badge/Lisans-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![C++](https://img.shields.io/badge/C++-17%2B-00599C.svg)](https://isocpp.org/)
 [![Rust](https://img.shields.io/badge/Rust-Safe%20Bindings-dea584.svg)](https://www.rust-lang.org/)
 [![ROS2](https://img.shields.io/badge/ROS2-Humble-22314E.svg)](https://docs.ros.org/en/humble/)
@@ -14,45 +14,45 @@ Bulut tabanlı API'lerin aksine, OrbitalEdge doğrudan cihaz üzerinde (on-premi
 
 ---
 
-## 🏗️ Architecture & High-Density Specifications
+## 🏗️ Mimari ve Yüksek Yoğunluklu Teknik Özellikler
 
-OrbitalEdge is built on a modular "7-tier" engineering philosophy, ensuring scalability from micro-controllers to advanced robotic platforms.
+OrbitalEdge, mikrodenetleyicilerden gelişmiş robotik platformlara kadar ölçeklenebilirlik sağlayan modüler bir "7-katmanlı" mühendislik felsefesi üzerine inşa edilmiştir.
 
 ```mermaid
 graph TD
-    A[Data Layer: Compressed .se1] --> B[Core Engine: C++17]
-    B --> C[Bindings: Python/Rust]
-    B --> D[ROS2 Telemetry Node]
-    C --> E[Edge Intelligence Applications]
-    D --> F[Autonomous Navigation]
-    B --> G[Hardware Optimization: ARM64/VFP]
+    A[Veri Katmanı: Sıkıştırılmış .se1] --> B[Çekirdek Motor: C++17]
+    B --> C[Arayüzler: Python/Rust]
+    B --> D[ROS2 Telemetri Düğümü]
+    C --> E[Uç Birim Zeka Uygulamaları]
+    D --> F[Otonom Navigasyon]
+    B --> G[Donanım Optimizasyonu: ARM64/VFP]
 ```
 
-### Key Technical Pillars
-*   **Offline-First Architecture**: Entire ephemeris database is stored locally. No dependency on external APIs or connectivity.
-*   **Micro-footprint Performance**: C++17 core designed for deterministic memory usage and minimal CPU overhead.
-*   **Hardware Acceleration**: Specialized build flags for ARM64 (NEON/VFP) optimizing astronomical trigonometric operations.
-*   **Unified Interface**: Access the core engine via high-performance bindings (Python/Rust) or via the ROS2 middleware ecosystem.
+### Temel Teknik Sütunlar
+*   **Çevrimdışı Öncelikli Mimari**: Tüm ephemeris veritabanı yerel olarak saklanır. Dış API veya bağlantı bağımlılığı yoktur.
+*   **Mikro-Ayak İzi Performansı**: Deterministik bellek kullanımı ve minimum CPU yükü için tasarlanmış C++17 çekirdeği.
+*   **Donanım Hızlandırması**: Astronomik trigonometrik işlemleri optimize eden ARM64 (NEON/VFP) için özel derleme bayrakları.
+*   **Birleşik Arayüz**: Çekirdek motora yüksek performanslı Python/Rust bindings veya ROS2 ara katman yazılımı üzerinden erişim.
 
 ---
 
-## 📂 Repository Structure (7-Tier Scaffolding)
+## 📂 Depo Yapısı (7-Katmanlı İskelet)
 
-| Tier | Component | Description |
+| Katman | Bileşen | Açıklama |
 | :--- | :--- | :--- |
-| **00** | **Meta & Governance** | Licensing, Contribution guidelines, and Project Manifest. |
-| **01** | **Core Engine** | High-performance C++17 astronomical calculation logic. |
-| **02** | **Bindings** | Native interfaces for Python (Pybind11) and Rust (cxx). |
-| **03** | **Robotics** | ROS2 (Humble) integration for real-time celestial telemetry. |
-| **04** | **Data Hub** | Compressed offline ephemeris binary storage. |
-| **05** | **Hardware Lab** | Optimization profiles for Jetson Nano/Orin and RPi 4/5. |
-| **06** | **Research** | Advanced cases: Celestial-based navigation & Edge AI models. |
+| **00** | **Meta ve Yönetişim** | Lisanslama, Katkıda Bulunma kılavuzları ve Proje Bildirgesi. |
+| **01** | **Çekirdek Motor** | Yüksek performanslı C++17 astronomik hesaplama mantığı. |
+| **02** | **Arayüzler** | Python (Pybind11) ve Rust (cxx) için yerel arayüzler. |
+| **03** | **Robotik** | Gerçek zamanlı gökyüzü telemetrisi için ROS2 (Humble) entegrasyonu. |
+| **04** | **Veri Merkezi** | Sıkıştırılmış çevrimdışı ephemeris ikili veri depolama. |
+| **05** | **Donanım Laboratuvarı** | Jetson Nano/Orin ve RPi 4/5 için optimizasyon profilleri. |
+| **06** | **Araştırma** | Gelişmiş vakalar: Göksel navigasyon ve Uç Birim AI modelleri. |
 
 ---
 
-## 🚀 Getting Started (Jetson / Linux ARM64)
+## 🚀 Başlangıç (Jetson / Linux ARM64)
 
-### Core Engine Compilation (C++)
+### Çekirdek Motor Derlemesi (C++)
 ```bash
 mkdir build && cd build
 cmake .. -DCMAKE_BUILD_TYPE=Release
@@ -60,55 +60,56 @@ make -j$(nproc)
 sudo make install
 ```
 
-### Python Integration (Fast Prototyping)
-```bash
-cd bindings/python
-pip install .
+---
+
+## 💻 Örnek Kullanım (C++)
+
+```cpp
+#include <orbital_edge/ephemeris_engine.hpp>
+#include <iostream>
+
+int main() {
+    using namespace orbital_edge;
+    
+    // Motoru yerel veri yoluyla başlat
+    EphemerisEngine engine("/opt/orbital_edge/data");
+
+    // Cihaz konumu (Enlem/Boylam)
+    double lat = 40.99, lon = 39.71;
+
+    // Sıfır gecikme ile Güneş konumunu hesapla
+    auto sun_data = engine.get_planet_pos(Planets::SUN, lat, lon);
+    std::cout << "Güneş Yüksekliği: " << sun_data.altitude << "°" << std::endl;
+    
+    return 0;
+}
 ```
 
 ---
 
-## 💻 Example Usage (Python)
+## 🤖 ROS2 Entegrasyonu
 
-```python
-import orbital_edge as oe
-
-# Initialize engine with local data path
-engine = oe.EphemerisEngine("/opt/orbital_edge/data")
-
-# Device location (Latitude/Longitude)
-lat, lon = 40.99, 39.71
-
-# Compute Solar position with zero latency
-sun_data = engine.get_planet_pos(oe.Planets.SUN, lat, lon)
-print(f"Sun Altitude: {sun_data.altitude:.4f}°")
-```
-
----
-
-## 🤖 ROS2 Integration
-
-Bridge astronomical intelligence to your robotic stack:
+Astronomik zekayı robotik yığınınıza bağlayın:
 ```bash
 source install/setup.bash
 ros2 run orbital_edge_ros telemetry_node
 ```
-Listen to celestial telemetry on `/astro/telemetry`.
+`/astro/telemetry` konusu üzerinden göksel verileri dinleyin.
 
 ---
 
-## 🗺️ Roadmap
+## 🗺️ Yol Haritası
 
-- [x] C++17 Core Engine & Memory Optimization
-- [x] Python Wrapper (Pybind11)
-- [ ] Rust Crate Implementation
-- [ ] MQTT Lightweight Messaging for IoT
-- [ ] Celestial-Adaptive Navigation Algorithms
+- [x] C++17 Çekirdek Motor ve Bellek Optimizasyonu
+- [x] Astronomik Analitik Algoritmaların Uygulanması (VSOP87)
+- [ ] Python Binding (Pybind11) - *Geliştirme Aşamasında*
+- [ ] Rust Crate Uygulaması
+- [ ] Göksel Navigasyon Algoritmaları
 
 ---
 
-## 🤝 Contributing & License
+## 🤝 Katkıda Bulunma ve Lisans
 
-We welcome contributions from the embedded and robotics community. Please review [CONTRIBUTING.md](CONTRIBUTING.md) for architectural standards.
+Gömülü sistemler ve robotik topluluğundan gelen katkıları bekliyoruz. Mimari standartlar için [CONTRIBUTING.md](CONTRIBUTING.md) dosyasını inceleyin.
 
-OrbitalEdge is released under the **MIT License**.
+OrbitalEdge, **MIT Lisansı** altında sunulmaktadır.
