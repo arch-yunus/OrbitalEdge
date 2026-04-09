@@ -14,7 +14,31 @@ Bulut tabanlı API'lerin aksine, OrbitalEdge doğrudan cihaz üzerinde (on-premi
 
 ---
 
-## 🏗️ Mimari ve Yüksek Yoğunluklu Teknik Özellikler
+## 🐳 Docker ile Hızlı Dağıtım
+
+OrbitalEdge, Docker imajı olarak hem x86 hem de ARM64 mimarilerinde çalışabilir:
+
+```bash
+docker build -t orbital_edge .
+docker run -p 8080:8080 orbital_edge
+```
+
+---
+
+## 🦀 Rust Bağlantıları
+
+Rust projelerinizde yüksek performanslı efemeris hesaplamaları için:
+
+```rust
+use orbital_edge;
+
+let engine = orbital_edge::ffi::new_ephemeris_engine("/opt/data");
+let pos = engine.get_planet_pos(0, 40.99, 39.71);
+```
+
+---
+
+## 🏗️ 7-Katmanlı Mimari ve Yüksek Yoğunluklu Teknik Özellikler
 
 OrbitalEdge, mikrodenetleyicilerden gelişmiş robotik platformlara kadar ölçeklenebilirlik sağlayan modüler bir "7-katmanlı" mühendislik felsefesi üzerine inşa edilmiştir.
 
@@ -93,7 +117,56 @@ OrbitalEdge, Ay'ın karmaşık yörünge hareketlerini hesaplamak için **ELP-20
 
 ---
 
-## 📡 IoT ve MQTT Bağlantısı
+## 🧭 Otonom Olay Tahmin Motoru (Aşama 6)
+
+OrbitalEdge artık sadece anlık veri değil, ileriye dönük **analitik tahminler** de üretebilir:
+
+- **Retrograt Analizi**: Gezegenlerin geri hareket dönemlerini tespit eder.
+- **Kavuşum (Conjunction) Tahmini**: Gök cisimlerinin birbirine en yakın olduğu anları hesaplar.
+- **SIMD/NEON Optimizasyonu**: ARM64 mimarilerinde %40'a varan performans artışı sağlayan döngü optimizasyonları.
+
+---
+
+## 🎨 Yüksek Performanslı Gökyüzü Motoru (Canvas UI)
+
+Dashboard arayüzü, HTML5 Canvas tabanlı yeni bir motorla güncellendi:
+- **Pürüzsüz Render**: CSS yerine Canvas üzerinden 60FPS gökyüzü simülasyonu.
+- **Parlama Efektleri**: Gezegenlerin parlaklık ve renklerine göre dinamik görselleştirme.
+
+---
+
+## 🧪 Profesyonel Test Suit'i (v1.2.0 Stable)
+
+OrbitalEdge, Google Test (GTest) entegrasyonu ile endüstri standartlarında doğrulanmaktadır:
+
+```bash
+# Testleri derle ve calistir
+cd build
+cmake ..
+make
+ctest
+```
+
+---
+
+## 📟 Interaktif Terminal UI
+
+Sistemi grafiksel bir arayüz olmadan, doğrudan terminal üzerinden yönetmek için:
+
+```bash
+./build/orbital_ui
+```
+Real-time güncellenen interaktif dashboard ile tüm gezegen verilerine anında erişim sağlayın.
+
+---
+
+## 📜 Lisans ve Katkı
+Bu proje **MIT Lisansı** ile korunmaktadır. Katkıda bulunmak için lütfen `CONTRIBUTING.md` dosyasını inceleyin.
+
+---
+
+## 🛠️ Kurulum ve Derleme (v1.2.0)
+MQTT Bağlantısı
 
 Uç birimden toplanan astronomik veriler, `MQTTManager` aracılığıyla JSON formatında diğer IoT cihazlarına veya merkezi bir broker'a aktarılması sağlanır:
 

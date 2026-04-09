@@ -42,6 +42,21 @@ add_executable(orbital_bench tools/orbital_bench.cpp)
 target_link_libraries(orbital_bench PRIVATE orbital_edge_core)
 target_include_directories(orbital_bench PRIVATE core/include)
 
+# Testing
+enable_testing()
+include(FetchContent)
+FetchContent_Declare(
+  googletest
+  URL https://github.com/google/googletest/archive/refs/heads/main.zip
+)
+set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+FetchContent_MakeAvailable(googletest)
+
+add_executable(orbital_tests tests/test_analytics.cpp)
+target_link_libraries(orbital_tests GTest::gtest_main orbital_edge_core)
+target_include_directories(orbital_tests PRIVATE core/include)
+add_test(NAME CoreTests COMMAND orbital_tests)
+
 # Installation
 install(EXPORT OrbitalEdgeTargets
     FILE OrbitalEdgeTargets.cmake

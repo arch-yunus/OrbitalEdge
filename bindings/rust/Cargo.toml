@@ -1,0 +1,15 @@
+[package]
+name = "orbital_edge"
+version = "1.0.0"
+edition = "2021"
+authors = ["Yunus <arch-yunus>"]
+description = "Rust bindings for the OrbitalEdge astronomical engine"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+cxx = "1.0"
+
+[build-dependencies]
+cxx-build = "1.0"

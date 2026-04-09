@@ -19,20 +19,25 @@ EphemerisEngine::~EphemerisEngine() {
 
 /**
  * @brief VSOP87 katsayılarını kullanarak bir gezegenin heliosentrik boylamını hesaplar.
+ * Kritik: Bu döngü derleyici tarafından SIMD (NEON/AVX) için optimize edilmeye müsaittir.
  */
 double calculate_heliocentric_longitude(int planet_index, double t) {
-    auto series = VSOPData::get_planet_series(planet_index);
-    double lon = 0;
+    const auto& L0 = VSOPData::get_L0(planet_index);
+    const auto& L1 = VSOPData::get_L1(planet_index);
     
-    for (const auto& term : series.L0) {
-        lon += term.A * std::cos(term.B + term.C * t);
+    double lon_0 = 0.0;
+    double lon_1 = 0.0;
+    
+    for (const auto& term : L0) {
+        lon_0 += term.A * std::cos(term.B + term.C * t);
     }
     
-    for (const auto& term : series.L1) {
-        lon += term.A * std::cos(term.B + term.C * t) * t;
+    for (const auto& term : L1) {
+        lon_1 += term.A * std::cos(term.B + term.C * t);
     }
     
-    return std::fmod(lon, TWO_PI) * RAD_TO_DEG;
+    double result = lon_0 + (lon_1 * t);
+    return std::fmod(result, TWO_PI) * RAD_TO_DEG;
 }
 
 std::optional<PlanetPosition> EphemerisEngine::get_planet_pos(Planets gezegen, double enlem, double boylam) {

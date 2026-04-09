@@ -1,0 +1,8 @@
+build/
+.git/
+.github/
+web/node_modules/
+*.pyc
+__pycache__/
+.vscode/
+venv/
