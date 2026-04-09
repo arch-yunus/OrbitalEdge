@@ -1,0 +1,12 @@
+[build-system]
+requires = ["setuptools", "wheel", "pybind11", "cmake"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "orbital_edge"
+version = "1.0.0"
+description = "Sifir Gecikmeli Astronomik Hesaplama Motoru"
+readme = "README.md"
+requires-python = ">=3.7"
+license = {text = "MIT"}
+authors = [{name = "Yunus"}]

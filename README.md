@@ -87,6 +87,34 @@ int main() {
 
 ---
 
+## 🐍 Python Kullanımı (Pybind11)
+
+OrbitalEdge, Python üzerinden doğrudan erişilebilir durumdadır. Bu, AI modelleri ve hızlı veri analizi için idealdir:
+
+```python
+import orbital_edge_python as oe
+
+# Motoru başlat
+engine = oe.EphemerisEngine("/opt/orbital_edge/data")
+
+# Jüpiter konumunu sorgula
+jupiter = engine.get_planet_pos(oe.Planets.Jupiter, 41.0, 29.0)
+print(f"Jupiter Burcu: {jupiter.sign}, Yukseklik: {jupiter.altitude}")
+```
+
+---
+
+## 🛠️ CLI Aracı (orbital_cli)
+
+Hesaplamaları terminal üzerinden anlık olarak test etmek için dahili CLI aracını kullanabilirsiniz:
+
+```bash
+./build/orbital_cli 41.00 29.00
+```
+Bu komut, İstanbul için tüm ana gezegenlerin anlık efemeris verilerini tablo halinde dönecektir.
+
+---
+
 ## 🤖 ROS2 Entegrasyonu
 
 Astronomik zekayı robotik yığınınıza bağlayın:

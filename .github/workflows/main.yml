@@ -1,0 +1,41 @@
+name: OrbitalEdge CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build_linux:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        submodules: recursive
+
+    - name: Bilgi
+      run: echo "OrbitalEdge C++ ve Python birim testleri baslatiliyor..."
+
+    - name: Bagimliliklari Kur
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y cmake build-essential python3-dev
+
+    - name: Derle (CMake)
+      run: |
+        mkdir build
+        cd build
+        cmake .. -DCMAKE_BUILD_TYPE=Release
+        make -j$(nproc)
+
+    - name: Test (CTest)
+      run: |
+        cd build
+        ctest --output-on-failure
+
+    - name: Python Paket Testi
+      run: |
+        cd build
+        python3 -c "import orbital_edge_python; print('Python Binding Basarili!')"

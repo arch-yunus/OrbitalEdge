@@ -16,35 +16,56 @@ EphemerisEngine::~EphemerisEngine() {
     std::cout << "[OrbitalEdge] Motor kapatiliyor." << std::endl;
 }
 
+/**
+ * @brief VSOP87 katsayılarını kullanarak bir gezegenin heliosentrik boylamını hesaplar.
+ */
+double calculate_heliocentric_longitude(int planet_index, double t) {
+    auto series = VSOPData::get_planet_series(planet_index);
+    double lon = 0;
+    
+    // L0 serisi: Sabit ve lineer olmayan terimler
+    for (const auto& term : series.L0) {
+        lon += term.A * std::cos(term.B + term.C * t);
+    }
+    
+    // L1 serisi: t ile orantılı terimler
+    for (const auto& term : series.L1) {
+        lon += term.A * std::cos(term.B + term.C * t) * t;
+    }
+    
+    return std::fmod(lon, TWO_PI) * RAD_TO_DEG;
+}
+
 PlanetPosition EphemerisEngine::get_planet_pos(Planets gezegen, double enlem, double boylam) {
     double jd = get_current_julian_date();
     double gmst = calculate_gmst(jd);
+    double t = (jd - 2451545.0) / 365250.0; // VSOP87 için milenyum cinsinden zaman
 
-    // Basitleştirilmiş boylam hesaplama (Güneş/Dünya için örnek)
-    // T = (JD - 2451545.0) / 36525.0
-    double T = (jd - 2451545.0) / 36525.0;
-    
-    // Güneş boylamı (yaklaşık)
-    double L0 = 280.46646 + 36000.76983 * T + 0.0003032 * T * T;
-    double M = 357.52911 + 35999.05029 * T - 0.0001537 * T * T;
-    double e = 0.016708634 - 0.000042037 * T - 0.0000001267 * T * T;
-    
-    double C = (1.914602 - 0.004817 * T - 0.000014 * T * T) * std::sin(M * DEG_TO_RAD) +
-               (0.019993 - 0.000101 * T) * std::sin(2 * M * DEG_TO_RAD) +
-               0.000289 * std::sin(3 * M * DEG_TO_RAD);
-    
-    double sun_lon = L0 + C;
-    double sun_lat = 0.0; // Ekliptik boylamda Güneş enlemi yaklaşıktır
-    double epsilon = 23.4392911; // Ecliptic obliquity
+    double planet_lon = 360.0;
+    double planet_lat = 0.0;
+    double epsilon = 23.4392911;
+
+    // Dünya'nın (Güneş için) heliosentrik boylamı
+    double earth_lon = calculate_heliocentric_longitude(2, t);
+
+    if (gezegen == Planets::SUN) {
+        // Güneş boylamı = Dünya heliosentrik boylamı + 180 derece
+        planet_lon = earth_lon + 180.0;
+    } else {
+        // Diğer gezegenler (basitleştirilmiş geocentric yaklaşım)
+        // Gerçekte Heliocentric vector farkı gerekir. Burada gösterim için basitleştirilmiştir.
+        double h_lon = calculate_heliocentric_longitude(static_cast<int>(gezegen), t);
+        planet_lon = h_lon; // Örnek olarak heliosentrik verilmektedir
+    }
 
     PlanetPosition pos;
     double ra, dec;
-    ecliptic_to_equatorial(sun_lon, sun_lat, epsilon, ra, dec);
+    ecliptic_to_equatorial(planet_lon, planet_lat, epsilon, ra, dec);
     
     double alt, az;
     equatorial_to_horizontal(ra, dec, enlem, boylam, gmst, alt, az);
 
-    pos.zodiac_degree = std::fmod(sun_lon, 360.0);
+    pos.zodiac_degree = std::fmod(planet_lon, 360.0);
     pos.altitude = alt;
     pos.azimuth = az;
 
@@ -54,7 +75,7 @@ PlanetPosition EphemerisEngine::get_planet_pos(Planets gezegen, double enlem, do
         "Terazi", "Akrep", "Yay", "Oglak", "Kova", "Balik"
     };
     int index = static_cast<int>(pos.zodiac_degree / 30.0);
-    pos.sign = burclar[index];
+    pos.sign = burclar[index % 12];
 
     return pos;
 }
