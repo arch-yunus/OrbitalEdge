@@ -12,16 +12,16 @@ namespace analytics {
  * @brief Astronomik olayların (Retrograt, Kavuşum vb.) türleri.
  */
 enum class EventType {
-    RETROGRADE_START,
-    RETROGRADE_END,
-    CONJUNCTION,
-    MAX_ELONGATION
+    RETROGRADE_START, // Geri hareket başlangıcı
+    RETROGRADE_END,   // Geri hareket bitişi
+    CONJUNCTION,      // Kavuşum (Gezegenlerin hizalanması)
+    MAX_ELONGATION    // Maksimum uzanım
 };
 
 struct AstroEvent {
     EventType type;
     double jd;         // Olayın gerçekleştiği Julian Tarihi
-    std::string description;
+    std::string description; // Olay açıklaması
 };
 
 /**

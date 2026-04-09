@@ -160,12 +160,25 @@ Real-time güncellenen interaktif dashboard ile tüm gezegen verilerine anında 
 
 ---
 
-## 📜 Lisans ve Katkı
-Bu proje **MIT Lisansı** ile korunmaktadır. Katkıda bulunmak için lütfen `CONTRIBUTING.md` dosyasını inceleyin.
+## 🏭 Seri Üretim Reçetesi (Production Recipe)
+
+OrbitalEdge'i uç birim cihazlarda (Jetson/RPi) en yüksek kararlılıkla çalıştırmak için:
+
+1.  **Güç Modu**: Cihazı "High Performance" (örn. `nvpmodel -m 0`) moduna alın.
+2.  **Otonom Başlatma**: `orbital_init.sh` betiği ile kurulumu tamamlayın.
+3.  **Docker Dağıtımı**: Servis sürekliliği için Docker konteyner yapısını tercih edin.
+4.  **Kalibrasyon**: `AutoCalibrationService` ile GPS/NTP senkronizasyonunu aktifleştirin.
 
 ---
 
-## 🛠️ Kurulum ve Derleme (v1.2.0)
+## 🛸 OrbitalEdge v1.2.0-STABLE
+
+Bu sürüm, deneysel bir çalışmanın ötesinde, tam donanımlı, Türkçeleştirilmiş ve profesyonel bir astronomik navigasyon sistemini temsil eder.
+
+---
+
+## 📜 Lisans ve Katkı
+Bu proje **MIT Lisansı** ile korunmaktadır.
 MQTT Bağlantısı
 
 Uç birimden toplanan astronomik veriler, `MQTTManager` aracılığıyla JSON formatında diğer IoT cihazlarına veya merkezi bir broker'a aktarılması sağlanır:
