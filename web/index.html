@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OrbitalEdge | Gece Gokyuzu Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="background-overlay"></div>
+    <main class="dashboard-container">
+        <header>
+            <div class="logo">🌌 OrbitalEdge</div>
+            <div class="status-badge">● Sistem Cevrimdisi / Aktif</div>
+        </header>
+
+        <section class="main-visual">
+            <div class="sky-map" id="skyMap">
+                <!-- Gezegenler JS ile buraya eklenecek -->
+                <div class="horizon"></div>
+            </div>
+            <div class="info-panel glass">
+                <h2>Uch Birim Telemetrisi</h2>
+                <div class="telemetry-grid">
+                    <div class="telemetry-item">
+                        <span>Enlem</span>
+                        <strong id="lat">40.99</strong>
+                    </div>
+                    <div class="telemetry-item">
+                        <span>Boylam</span>
+                        <strong id="lon">39.71</strong>
+                    </div>
+                    <div class="telemetry-item">
+                        <span>LST</span>
+                        <strong id="lst">--:--</strong>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="planet-cards" id="planetList">
+            <!-- Kartlar JS ile buraya eklenecek -->
+        </section>
+    </main>
+    <script src="app.js"></script>
+</body>
+</html>

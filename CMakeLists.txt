@@ -37,6 +37,11 @@ add_executable(orbital_cli tools/orbital_cli.cpp)
 target_link_libraries(orbital_cli PRIVATE orbital_edge_core)
 target_include_directories(orbital_cli PRIVATE core/include)
 
+# Benchmarking Tool
+add_executable(orbital_bench tools/orbital_bench.cpp)
+target_link_libraries(orbital_bench PRIVATE orbital_edge_core)
+target_include_directories(orbital_bench PRIVATE core/include)
+
 # Installation
 install(EXPORT OrbitalEdgeTargets
     FILE OrbitalEdgeTargets.cmake

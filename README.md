@@ -145,6 +145,39 @@ Bu komut, İstanbul için tüm ana gezegenlerin anlık efemeris verilerini tablo
 
 ---
 
+## 🖥️ Web Dashboard (Uç Birim Görselleştirme)
+
+OrbitalEdge, yerel ağ üzerinden erişilebilen premium bir dashboard yığını içerir. Glassmorphism tasarımı ile gök cisimlerini gerçek zamanlı olarak izleyebilirsiniz:
+
+- **Yer:** `/web/index.html`
+- **Özellikler**: Dinamik gökyüzü haritası, telemetri paneli ve gezegen kartları.
+
+---
+
+## ⏱️ Performans Kıyaslama (Benchmarking)
+
+Sistemin "Sıfır Gecikme" (Zero-Latency) iddiasını doğrulamak için dahili kıyaslama aracını kullanabilirsiniz:
+
+```bash
+./build/orbital_bench
+```
+Bu araç, 10.000 hesaplama üzerinden ortalama gecikmeyi (micro-second) raporlar.
+
+---
+
+## 🎓 Astronomik Masterclass: Teorik Altyapı
+
+OrbitalEdge'in arkasındaki bilimsel modeller:
+
+1.  **VSOP87 (Variations Séculaires des Orbites Planétaires)**: Güneş ve ana gezegenlerin heliosentrik koordinatları için kullanılan yüksek hassasiyetli analitik seri.
+2.  **ELP-2000/82 (Éphéméride Lunaire Parisienne)**: Ay'ın Dünya çevresindeki karmaşık periyodik hareketlerini açıklayan en güçlü teorilerden biri.
+3.  **Koordinat Dönüşüm Matrisleri**:
+    *   **Ekliptik -> Ekvatoral**: Dünyanın eksen eğikliği (obliquity) dikkate alınarak dönüşüm yapılır.
+    *   **Ekvatoral -> Yatay**: Gözlemcinin enlem, boylam ve yerel yıldız zamanı (LST) kullanılarak Alt/Az hesaplanır.
+4.  **Refraksiyon (Kırılma)**: Atmosferik yoğunluk farkından dolayı gök cisimlerinin ufukta olduğundan daha yüksek görünmesi düzeltilir.
+
+---
+
 ## 🤖 ROS2 Entegrasyonu
 
 Astronomik zekayı robotik yığınınıza bağlayın:

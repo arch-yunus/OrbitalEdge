@@ -2,6 +2,7 @@
 
 #include <string>
 #include <vector>
+#include <optional>
 
 namespace orbital_edge {
 
@@ -10,12 +11,13 @@ enum class Planets {
     MOON = 1,
     MERCURY = 2,
     VENUS = 3,
-    MARS = 4,
-    JUPITER = 5,
-    SATURN = 6,
-    URANUS = 7,
-    NEPTUNE = 8,
-    PLUTO = 9
+    EARTH = 4, // Dunya (Heliocentric icin)
+    MARS = 5,
+    JUPITER = 6,
+    SATURN = 7,
+    URANUS = 8,
+    NEPTUNE = 9,
+    PLUTO = 10
 };
 
 struct PlanetPosition {
@@ -30,11 +32,14 @@ public:
     EphemerisEngine(const std::string& data_path);
     ~EphemerisEngine();
 
-    PlanetPosition get_planet_pos(Planets planet, double lat, double lon);
+    /**
+     * @brief Gezegen konumunu hesaplar.
+     * C++17 std::optional ile hata yonetimi yapilir.
+     */
+    std::optional<PlanetPosition> get_planet_pos(Planets planet, double lat, double lon);
 
 private:
     std::string m_dataPath;
-    // Internal ephemeris data structures
 };
 
 } // namespace orbital_edge
